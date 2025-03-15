@@ -73,10 +73,10 @@ const Slider = React.forwardRef<
   )
   const [tooltipOpening, setTooltipOpen] = React.useState(false)
   const isOpening = React.useDeferredValue(tooltipOpening)
-  const openTimeoutRef = React.useRef<NodeJS.Timeout>()
+  const openTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
   const handleChange = (value: number | number[]) => {
     setTooltipOpen(true)
-    clearTimeout(openTimeoutRef.current)
+    if (openTimeoutRef.current) clearTimeout(openTimeoutRef.current)
     openTimeoutRef.current = setTimeout(() => {
       setTooltipOpen(false)
     }, TOOLTIP_CLOSE_DELAY)

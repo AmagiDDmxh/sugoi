@@ -13,7 +13,7 @@ const interBold = fetch(
   new URL("../../../assets/fonts/CalSans-SemiBold.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer())
 
-export async function GET(req: Request) {
+export async function GET(req: Request): Promise<ImageResponse> {
   try {
     const fontRegular = await interRegular
     const fontBold = await interBold
@@ -22,23 +22,25 @@ export async function GET(req: Request) {
     const values = ogImageSchema.parse(Object.fromEntries(url.searchParams))
 
     if (typeof values === "undefined") {
-      return (
-        <div
-          style={{
-            height: "100%",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#fff",
-            fontSize: 32,
-            fontWeight: 600,
-          }}
-        >
-          <Icons.Love width={100} height={100} />
-          <div style={{ marginTop: 40 }}>Hello, Lover</div>
-        </div>
+      return new ImageResponse(
+        (
+          <div
+            style={{
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#fff",
+              fontSize: 32,
+              fontWeight: 600,
+            }}
+          >
+            <Icons.Love width={100} height={100} />
+            <div style={{ marginTop: 40 }}>Hello, Lover</div>
+          </div>
+        )
       )
     }
 

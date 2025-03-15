@@ -4,13 +4,18 @@ import { Header } from "#/components/Header"
 import { ScoreCard } from "#/components/ScoreCard"
 
 interface SharePageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function SharePage({ params }: SharePageProps) {
-  const love = await getSharedLove(params.id)
+  const { id } = await params
+  if (!id) {
+    return notFound()
+  }
+
+  const love = await getSharedLove(id)
 
   if (!love || !love.sharePath) {
     return notFound()
